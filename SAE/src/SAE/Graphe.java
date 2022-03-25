@@ -4,7 +4,7 @@ import java.util.*;
 import java.util.Arrays;
 
 public class Graphe<E> {
-    private List<Villes> StockVilles = null;
+    public List<Villes> StockVilles = null;
     public List<List<Aretes>> StockAretes = null;
     public int zone;
 
@@ -56,13 +56,13 @@ public class Graphe<E> {
     }
 
     public static void main(String[] args) {
-        Graphe<Villes> Graphe2 = new Graphe<Villes>(100);
+        Graphe<Villes> Graphe2 = new Graphe<Villes>(1000);
 
-        Graphe2.creationVilles(3);
+        Graphe2.creationVilles(10);
         Graphe2.creationAretes();
 
-        Fourmis f = new Fourmis(Graphe2.StockVilles.get(0));
+        Fourmis f = new Fourmis(Graphe2.StockVilles.get(0), Graphe2.StockVilles);
 
-        f.choixChemin(Graphe2.StockAretes, Graphe2.StockVilles);
+        f.choixChemin(Graphe2.StockAretes);
     }
 }
