@@ -29,11 +29,11 @@ public class Fourmis {
         if (!this.stockVilles.isEmpty()) {
             System.out.println(this.stockVilles.size());
 
-            int n = (int) (Math.random() * (this.nbAleatoire.size()-1));
+            int n = (int) (Math.random() * (this.nbAleatoire.size()));
             int destination = this.nbAleatoire.get(n);
 
             if (this.nbAleatoire.contains(destination)) {
-                this.nbAleatoire.remove(n);
+                this.nbAleatoire.remove(this.nbAleatoire.get(n)); // Ne marche pas en mettant "destination" ?????
 
                 int depart = this.villeActuelle.id;
 
@@ -56,7 +56,6 @@ public class Fourmis {
 
                 if (!this.villeVisite.contains(chemin.v2)) {
                     if (Math.random() * (100) < chemin.visibilite) {
-                        this.villeVisite.add(this.villeActuelle);
                         this.areteVisite.add(chemin);
 
                         this.stockVilles.remove(this.villeActuelle);
@@ -70,6 +69,7 @@ public class Fourmis {
                     }
                 } else if (this.stockVilles.size() != 0) {
                     this.nbAleatoire.add(destination);
+                    this.villeVisite.remove(this.villeActuelle);
                     choixChemin(stockAretes);
                 }
             }
