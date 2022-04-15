@@ -4,33 +4,52 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Fourmis {
-    protected List<Aretes> areteVisite;
+    public List<Aretes> areteVisite;
     protected List<Villes> villeVisite;
-    protected List<Villes> stockVilles;
-    protected List<Integer> nbAleatoire = new ArrayList<>();
+    protected List<Villes> aVisiter;
     private Villes villeActuelle;
     private int compteur;
 
     public Fourmis (Villes villeActuelle, List<Villes> aVisite) {
         this.areteVisite = new ArrayList<>();
         this.villeVisite = new ArrayList<>();
-        this.stockVilles = aVisite;
+        this.aVisiter = aVisite;
         this.compteur = 0;
         this.villeActuelle = villeActuelle;
+    }
 
-        for (int i=1; i < aVisite.size(); i++) {
-            this.nbAleatoire.add(i);
+    public int FindIndex(int id) {
+        for (int i = 0; i < aVisiter.size(); i++) {
+            if (aVisiter.get(i).id == id) {
+                return i;
+            }
         }
+        return 0;
+    }
+
+    public int FindIndexChemin(int id1,int id2,List<List<Aretes>> stock) {
+        for (int i = 0; i < stock.size(); i++) {
+            for (int j = 0; j < stock.size() - 1; j++) {
+                if (stock.get(i).get(j).v1.id == id1 && stock.get(i).get(j).v2.id == id2) {
+                    return i*10+j;
+                }
+            }
+        }
+        return 0;
     }
 
     public void choixChemin (List<List<Aretes>> stockAretes) {
 
-        if (this.stockVilles.size() == 1) {
+        if (!villeVisite.contains(villeActuelle)) {
+            villeVisite.add(villeActuelle);
+            aVisiter.remove(this.FindIndex(villeActuelle.id));
+        }
 
-            this.areteVisite.add(stockAretes.get(this.villeActuelle.id).get(0));
-
-            this.stockVilles.remove(0);
-
+        if (this.aVisiter.size() == 0) {
+            int id = this.FindIndexChemin(this.villeActuelle.id,0,stockAretes);
+            Aretes chemin = stockAretes.get(id/10).get(id%10);
+            this.areteVisite.add(chemin);
+            this.compteur += chemin.distance;
             for (int i = 0; i < stockAretes.size(); i++) {
                 for (int j = 0; j < stockAretes.size()-1; j++) {
                     if (!this.areteVisite.contains(stockAretes.get(i).get(j)) && stockAretes.get(i).get(j).getPheromone() > 0) {
@@ -38,45 +57,34 @@ public class Fourmis {
                     }
                 }
             }
-
         }
 
-        if (this.stockVilles.size() > 1) {
-            System.out.println(this.stockVilles.size());
+        if (aVisiter.size()>0) {
 
-            while (true) {
+            int n = (int) (Math.random() * (aVisiter.size())-1);
+            int destination = aVisiter.get(n).id;
+            int depart = villeActuelle.id;
 
-                int n = (int) (Math.random() * (this.nbAleatoire.size()));
-                int destination = this.nbAleatoire.get(n);
-                int depart = this.villeActuelle.id;
+            int id = this.FindIndexChemin(depart,destination,stockAretes);
+            Aretes chemin = stockAretes.get(id/10).get(id%10);
 
-                if (!this.villeVisite.contains(this.villeActuelle)) {
-                    this.villeVisite.add(this.villeActuelle);
-                }
+            if (Math.random() * (100) < chemin.visibilite) {
 
-                Aretes chemin = stockAretes.get(depart).get(destination - 1);
+                areteVisite.add(chemin);
+                villeActuelle = chemin.v2;
 
-                if (Math.random() * (100) < chemin.visibilite) {
-                    this.nbAleatoire.remove(n);
-
-                    this.areteVisite.add(chemin);
-
-                    this.stockVilles.remove(this.villeActuelle);
-                    this.villeActuelle = chemin.v2;
-
-                    for (int i = 0; i < stockAretes.size(); i++) {
+                    /*for (int i = 0; i < stockAretes.size(); i++) {
                         for (int j = 0; j < stockAretes.size() - 1; j++) {
                             if (stockAretes.get(i).get(j) == chemin) {
                                 stockAretes.get(i).get(j).Pheromone();
                             }
                         }
-                    }
+                    }*/
 
-                    this.compteur += chemin.distance;
-                    choixChemin(stockAretes);
-                } else {
-                    choixChemin(stockAretes);
-                }
+                this.compteur += chemin.distance;
+                this.choixChemin(stockAretes);
+            } else {
+                this.choixChemin(stockAretes);
             }
         }
     }

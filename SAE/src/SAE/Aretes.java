@@ -39,11 +39,8 @@ public class Aretes {
 
     @Override
     public String toString() {
-        return "Aretes{" +
-                "visibilite=" + visibilite +
-                ", distance=" + distance +
-                ", v1=" + v1 +
-                ", v2=" + v2 +
+        return "Aretes{"+ v1.id +
+                ", --> " + v2.id +
                 '}';
     }
 }

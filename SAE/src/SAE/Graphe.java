@@ -58,11 +58,17 @@ public class Graphe<E> {
     public static void main(String[] args) {
         Graphe<Villes> Graphe2 = new Graphe<Villes>(1000);
 
-        Graphe2.creationVilles(5);
+        Graphe2.creationVilles(100);
         Graphe2.creationAretes();
 
         Fourmis f = new Fourmis(Graphe2.StockVilles.get(0), Graphe2.StockVilles);
 
         f.choixChemin(Graphe2.StockAretes);
+
+        for (Aretes arete:f.areteVisite) {
+            System.out.println(arete);
+        }
+
+
     }
 }
