@@ -1,6 +1,5 @@
 package SAE;
 
-import java.awt.desktop.OpenURIEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +31,14 @@ public class Fourmis {
 
             this.stockVilles.remove(0);
 
+            for (int i = 0; i < stockAretes.size(); i++) {
+                for (int j = 0; j < stockAretes.size()-1; j++) {
+                    if (!this.areteVisite.contains(stockAretes.get(i).get(j)) && stockAretes.get(i).get(j).getPheromone() > 0) {
+                        stockAretes.get(i).get(j).retirePheromone();
+                    }
+                }
+            }
+
         }
 
         if (this.stockVilles.size() > 1) {
@@ -42,11 +49,12 @@ public class Fourmis {
                 int n = (int) (Math.random() * (this.nbAleatoire.size()));
                 int destination = this.nbAleatoire.get(n);
                 int depart = this.villeActuelle.id;
-                Aretes chemin = stockAretes.get(depart).get(destination-1);
 
                 if (!this.villeVisite.contains(this.villeActuelle)) {
                     this.villeVisite.add(this.villeActuelle);
                 }
+
+                Aretes chemin = stockAretes.get(depart).get(destination - 1);
 
                 if (Math.random() * (100) < chemin.visibilite) {
                     this.nbAleatoire.remove(n);
@@ -56,6 +64,14 @@ public class Fourmis {
                     this.stockVilles.remove(this.villeActuelle);
                     this.villeActuelle = chemin.v2;
 
+                    for (int i = 0; i < stockAretes.size(); i++) {
+                        for (int j = 0; j < stockAretes.size() - 1; j++) {
+                            if (stockAretes.get(i).get(j) == chemin) {
+                                stockAretes.get(i).get(j).Pheromone();
+                            }
+                        }
+                    }
+
                     this.compteur += chemin.distance;
                     choixChemin(stockAretes);
                 } else {
@@ -63,7 +79,6 @@ public class Fourmis {
                 }
             }
         }
-
     }
 
 

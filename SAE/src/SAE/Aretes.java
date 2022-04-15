@@ -5,7 +5,7 @@ public class Aretes {
     public double distance;
     public Villes v1;
     public Villes v2;
-    public int pheromone;
+    public int pheromone = 0;
 
     public Aretes (Villes v1, Villes v2) {
         this.v1 = v1;
@@ -17,7 +17,24 @@ public class Aretes {
     }
 
     public void setVisibilite (int zone) {
-        this.visibilite = 100-(this.distance * 100) / zone;
+        this.visibilite = 100-(this.distance * 100) / zone + this.pheromone/10;
+
+    }
+
+    public double getVisibilite () {
+        return this.visibilite;
+    }
+
+    public int getPheromone() {
+        return pheromone;
+    }
+
+    public void Pheromone () {
+        this.pheromone += 50;
+    }
+
+    public void retirePheromone () {
+        this.pheromone -= 10;
     }
 
     @Override
@@ -28,17 +45,5 @@ public class Aretes {
                 ", v1=" + v1 +
                 ", v2=" + v2 +
                 '}';
-    }
-
-    public static void main(String[] args) {
-        Villes v1 = new Villes(20,0,0);
-        Villes v2 = new Villes(100,0,1);
-
-        Aretes A = new Aretes(v1,v2);
-
-        A.setDistance();
-        A.setVisibilite(100);
-
-        System.out.println(A.visibilite);
     }
 }
