@@ -17,7 +17,7 @@ public class Aretes {
     }
 
     public void setVisibilite (int zone) {
-        this.visibilite = 100-(this.distance * 100) / zone + this.pheromone/10;
+        this.visibilite = 100 -(this.distance * 100) / zone + this.pheromone/10;
 
     }
 
@@ -40,7 +40,7 @@ public class Aretes {
     @Override
     public String toString() {
         return "Aretes{"+ v1.id +
-                ", --> " + v2.id +
+                " --> " + v2.id +
                 '}';
     }
 }

@@ -61,7 +61,7 @@ public class Fourmis {
 
         if (aVisiter.size()>0) {
 
-            int n = (int) (Math.random() * (aVisiter.size())-1);
+            int n = (int) (Math.random() * (aVisiter.size()));
             int destination = aVisiter.get(n).id;
             int depart = villeActuelle.id;
 

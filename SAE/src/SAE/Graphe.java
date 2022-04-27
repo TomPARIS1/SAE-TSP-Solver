@@ -25,8 +25,8 @@ public class Graphe<E> {
     public void creationVilles (int nb_ville) {
 
         for (int i=0; i < nb_ville; i++) {
-            double x = Math.random() * (this.zone - 0);
-            double y = Math.random() * (this.zone - 0);
+            double x = Math.random() * (this.zone);
+            double y = Math.random() * (this.zone);
 
             Villes v = new Villes(x,y,i);
 
@@ -58,7 +58,7 @@ public class Graphe<E> {
     public static void main(String[] args) {
         Graphe<Villes> Graphe2 = new Graphe<Villes>(1000);
 
-        Graphe2.creationVilles(100);
+        Graphe2.creationVilles(15);
         Graphe2.creationAretes();
 
         Fourmis f = new Fourmis(Graphe2.StockVilles.get(0), Graphe2.StockVilles);
